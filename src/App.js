@@ -1,17 +1,14 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import 'antd/dist/antd.css';
 import './style.css';
-import AntTable from './AntTable';
+import { Table, Input, Button, Space } from 'antd';
+import Highlighter from 'react-highlight-words';
+
+import { SearchOutlined } from '@ant-design/icons';
+import  AntTable  from './AntTable';
+
 
 export default function App() {
-  return (
-    <div className="container">
-      <h1>Hello StackBlitz!</h1>
-      <p>Start editing to see some magic happen :)</p>
-      <div>
-        <div className="col ">
-          <AntTable />
-        </div>
-      </div>
-    </div>
-  );
+    return <AntTable />; 
 }

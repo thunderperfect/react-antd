@@ -31,6 +31,9 @@ const data = [
 ];
 
 export default function AntTable(props) {
+
+  const searchInput = React.useRef(null)
+
   const [searchText, setSearchText] = React.useState("");
   const [searchedColumn, setSearchedColumn] = React.useState("");
   const getColumnSearchProps = (dataIndex) => ({
@@ -42,9 +45,7 @@ export default function AntTable(props) {
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={(node) => {
-            this.searchInput = node;
-          }}
+          ref={ searchInput }
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
           onChange={(e) =>
@@ -96,7 +97,10 @@ export default function AntTable(props) {
         : "",
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
-        setTimeout(() => this.searchInput.select(), 100);
+        setTimeout(
+          () => searchInput && searchInput.current && searchInput.current.select()
+        )
+        // null check above: as its initial value was null
       }
     },
     render: (text) =>
