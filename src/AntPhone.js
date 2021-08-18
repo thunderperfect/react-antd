@@ -1,28 +1,20 @@
 import React from 'react';
-import { Form, Switch, Col } from 'antd';
+import { Form, Switch, Col, Input} from 'antd';
 import MaskedInput from 'antd-mask-input';
 import { useFormContext, Controller } from 'react-hook-form';
-
+import InputMask from 'react-input-mask';
 export default function AntPhone(props) {
   console.log('AntPhone props: ', props);
 
   const {
     control,
     watch,
-    getValues,
-    setValue,
     formState: { errors }
   } = useFormContext();
 
   const { name } = props;
   const isForeignName = `${name}IsForeign`;
-
   const watchIsForeign = watch(isForeignName);
-
-  const [isForeign, setIsForeign] = React.useState(getValues(isForeignName));
-  console.log('OfficePhoneNumberIsForeign');
-  console.log('isForeignName', isForeignName);
-  console.log('isForeign', isForeign);
 
   return (
     <>
@@ -35,21 +27,33 @@ export default function AntPhone(props) {
           required={props.required}
         >
           <Controller
-            rules={{
-              required: {
-                value: props.required,
-                message: `${props.label} is required`
-              }
-            }}
-            placeholder={props.label}
+            {...props}
             control={control}
-            name={props.name}
-            render={({ field }) => (
-              <MaskedInput
-                {...field}
-                mask={watchIsForeign ? '+111111111111' : '(111) 111-1111'}
-                size="20"
-              />
+            rules={{
+              required: { value: true, message: `${props.name} is required` }
+            }}
+            render={({
+              field: { onChange, value },
+              fieldState: { invalid }
+            }) => (
+              <InputMask
+                mask={watchIsForeign ? '+9999999999' : '(999) 999-9999'}
+                value={value}
+                title={props.name}
+                onChange={e => {
+                  e.target.value = e.target.value.replace(/\D/g, '');
+                  return onChange(e);
+                }}
+              >
+                {inputProps => (
+                  <Input
+                    {...inputProps}
+                    invalid={invalid}
+                    type="tel"
+                    bsSize="sm"
+                  />
+                )}
+              </InputMask>
             )}
           />
         </Form.Item>
@@ -64,7 +68,6 @@ export default function AntPhone(props) {
             )}
           />
         </Form.Item>
-        {watchIsForeign.toString()}
       </Col>
     </>
   );

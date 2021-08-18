@@ -2,12 +2,12 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import AntTable from './AntTable';
 import ReactJson from 'react-json-view';
+
 import {
   Layout,
   Menu,
   Breadcrumb,
   Tabs,
-  Input,
   Form,
   Button,
   Col,
@@ -46,28 +46,14 @@ export default function App() {
     official: ['MobilePhoneNumber'],
     personal: ['PersonalCellNumber']
   };
+
   let defaultValues = { ...employee };
 
   const methods = useForm({ defaultValues });
-  const control = methods.control;
-  const errors = methods.formState.errors;
 
   const watchPublic = methods.watch(validationProfiles.public);
   const watchOfficial = methods.watch(validationProfiles.official);
   const watchPersonal = methods.watch(validationProfiles.personal);
-
-  const onGenderChange = value => {
-    switch (value) {
-      case 'male':
-        form.setFieldsValue({ note: 'Hi, man!' });
-        return;
-      case 'female':
-        form.setFieldsValue({ note: 'Hi, lady!' });
-        return;
-      case 'other':
-        form.setFieldsValue({ note: 'Hi there!' });
-    }
-  };
 
   const onErrors = e => {
     console.log('onErrors');
@@ -81,11 +67,6 @@ export default function App() {
     for (const [key, value] of Object.entries(validationProfiles)) {
       console.log(value);
     }
-  };
-
-  const onFinish = values => {
-    console.log('onFinish');
-    console.log(values);
   };
 
   return (
@@ -112,77 +93,44 @@ export default function App() {
             className="site-layout-background"
             style={{ padding: 24, minHeight: 380 }}
           >
-            <div className="card-container">
-              <FormProvider {...methods}>
-                <Tabs type="card" size="small">
-                  <TabPane
-                    tab={
-                      <span>
-                        Tab 1{' '}
-                        {watchPublic.some(a => !a) && (
-                          <FrownTwoTone
-                            twoToneColor="red"
-                            title="tab contains errors"
-                          />
-                        )}
-                      </span>
-                    }
-                    key="1"
-                  >
-                    <Form
-                      onFinish={methods.handleSubmit(onSubmit, onErrors)}
-                      layout="vertical"
+            {' '}
+            <FormProvider {...methods}>
+              <form onSubmit={methods.handleSubmit(onSubmit, onErrors)}>
+                <div className="card-container">
+                  <Tabs type="card" size="small">
+                    <TabPane
+                      tab={
+                        <span>
+                          Tab 1{' '}
+                          {watchPublic.some(a => !a) && (
+                            <FrownTwoTone
+                              twoToneColor="red"
+                              title="tab contains errors"
+                            />
+                          )}
+                        </span>
+                      }
+                      key="1"
                     >
-                      <Row gutter={16}>
-                        <Col className="gutter-row" xs={24} lg={12}>
-                          <AntInput
-                            name="FirstName"
-                            label="First Name"
-                            required
-                          />
-                        </Col>
-                        <Col className="gutter-row" xs={24} lg={12}>
-                          <AntInput
-                            name="LastName"
-                            label="Last Name"
-                            required
-                          />
-                        </Col>
-
-                        <AntPhone
-                          name="OfficePhoneNumber"
-                          label="Office Phone"
-                          required
-                        />
-                        {methods.getValues('OfficePhoneNumberIsForeign').toString()}
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Descriptions>
-                            <Descriptions.Item label="Location">
-                              Location
-                            </Descriptions.Item>
-                          </Descriptions>
-                        </Col>
-                      </Row>
-                      <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                          Submit
-                        </Button>
-                      </Form.Item>
-                    </Form>
-                  </TabPane>
-                  <TabPane tab="Tab Title 2" key="2">
-                    <AntTable />
-                  </TabPane>
-                  <TabPane tab="Tab Title 3" key="3">
-                    <PublicTab />
-                    <p>Content of Tab Pane 1</p>
-                    <p>Content of Tab Pane 1</p>
-                  </TabPane>
-                </Tabs>
-              </FormProvider>
-            </div>
+                      <PublicTab />
+                    </TabPane>
+                    <TabPane tab="Tab Title 2" key="2">
+                      <AntTable />
+                    </TabPane>
+                    <TabPane tab="Tab Title 3" key="3">
+                      <PublicTab />
+                      <p>Content of Tab Pane 1</p>
+                      <p>Content of Tab Pane 1</p>
+                    </TabPane>
+                  </Tabs>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                      Submit
+                    </Button>
+                  </Form.Item>
+                </div>
+              </form>
+            </FormProvider>
           </div>
           <ReactJson src={methods.getValues()} />
         </Content>
