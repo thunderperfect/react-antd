@@ -1,42 +1,41 @@
-import { Table, Input, Button, Space, Pagination } from "antd";
-import Highlighter from "react-highlight-words";
-import { SearchOutlined } from "@ant-design/icons";
-import React from "react";
-import "antd/dist/antd.css";
+import React from 'react';
+import { Table, Input, Button, Space, Pagination } from 'antd';
+import Highlighter from 'react-highlight-words';
+import { SearchOutlined } from '@ant-design/icons';
+
 const data = [
   {
-    key: "1",
-    name: "John Brown",
+    key: '1',
+    name: 'John Brown',
     age: 32,
-    address: "New York No. 1 Lake Park"
+    address: 'New York No. 1 Lake Park'
   },
   {
-    key: "2",
-    name: "Joe Black",
+    key: '2',
+    name: 'Joe Black',
     age: 42,
-    address: "London No. 1 Lake Park"
+    address: 'London No. 1 Lake Park'
   },
   {
-    key: "3",
-    name: "Jim Green",
+    key: '3',
+    name: 'Jim Green',
     age: 32,
-    address: "Sidney No. 1 Lake Park"
+    address: 'Sidney No. 1 Lake Park'
   },
   {
-    key: "4",
-    name: "Jim Red",
+    key: '4',
+    name: 'Jim Red',
     age: 32,
-    address: "London No. 2 Lake Park"
+    address: 'London No. 2 Lake Park'
   }
 ];
 
 export default function AntTable(props) {
+  const searchInput = React.useRef(null);
 
-  const searchInput = React.useRef(null)
-
-  const [searchText, setSearchText] = React.useState("");
-  const [searchedColumn, setSearchedColumn] = React.useState("");
-  const getColumnSearchProps = (dataIndex) => ({
+  const [searchText, setSearchText] = React.useState('');
+  const [searchedColumn, setSearchedColumn] = React.useState('');
+  const getColumnSearchProps = dataIndex => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -45,14 +44,14 @@ export default function AntTable(props) {
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={ searchInput }
+          ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) =>
+          onChange={e =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ marginBottom: 8, display: "block" }}
+          style={{ marginBottom: 8, display: 'block' }}
         />
         <Space>
           <Button
@@ -85,8 +84,8 @@ export default function AntTable(props) {
         </Space>
       </div>
     ),
-    filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    filterIcon: filtered => (
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
@@ -94,22 +93,23 @@ export default function AntTable(props) {
             .toString()
             .toLowerCase()
             .includes(value.toLowerCase())
-        : "",
-    onFilterDropdownVisibleChange: (visible) => {
+        : '',
+    onFilterDropdownVisibleChange: visible => {
       if (visible) {
         setTimeout(
-          () => searchInput && searchInput.current && searchInput.current.select()
-        )
+          () =>
+            searchInput && searchInput.current && searchInput.current.select()
+        );
         // null check above: as its initial value was null
       }
     },
-    render: (text) =>
+    render: text =>
       searchedColumn === dataIndex ? (
         <Highlighter
-          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text ? text.toString() : ""}
+          textToHighlight={text ? text.toString() : ''}
         />
       ) : (
         text
@@ -122,15 +122,15 @@ export default function AntTable(props) {
     setSearchedColumn(dataIndex);
   };
 
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
-    setSearchText("");
+    setSearchText('');
   };
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
+      title: 'Name',
+      dataIndex: 'name',
       render: (text, row, index) => {
         if (index < 4) {
           return (
@@ -149,19 +149,19 @@ export default function AntTable(props) {
       }
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
-      width: "20%",
-      ...getColumnSearchProps("age")
+      title: 'Age',
+      dataIndex: 'age',
+      key: 'age',
+      width: '20%',
+      ...getColumnSearchProps('age')
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-      ...getColumnSearchProps("address"),
+      title: 'Address',
+      dataIndex: 'address',
+      key: 'address',
+      ...getColumnSearchProps('address'),
       sorter: (a, b) => a.address.length - b.address.length,
-      sortDirections: ["descend", "ascend"]
+      sortDirections: ['descend', 'ascend']
     }
   ];
 
@@ -173,9 +173,9 @@ export default function AntTable(props) {
         dataSource={data}
         size="small"
         pagination={{
-          size: "small",
-          showTotal: (total) => `Total ${total} items`,
-          position: ["topRight", "bottomRight"]
+          size: 'small',
+          showTotal: total => `Total ${total} items`,
+          position: ['topRight', 'bottomRight']
         }}
       />
       <Pagination size="small" total={50} />

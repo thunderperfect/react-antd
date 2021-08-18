@@ -1,14 +1,195 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
-import './style.css';
-import { Table, Input, Button, Space } from 'antd';
-import Highlighter from 'react-highlight-words';
-
-import { SearchOutlined } from '@ant-design/icons';
-import  AntTable  from './AntTable';
-
+import AntTable from './AntTable';
+import ReactJson from 'react-json-view';
+import {
+  Layout,
+  Menu,
+  Breadcrumb,
+  Tabs,
+  Input,
+  Form,
+  Button,
+  Col,
+  Row,
+  Descriptions
+} from 'antd';
+import PublicTab from './Tabs/Public';
+import AntInput from './AntInput';
+import AntPhone from './AntPhone';
+import { useForm, FormProvider, Controller } from 'react-hook-form';
+import {
+  AppleOutlined,
+  AndroidOutlined,
+  FrownTwoTone
+} from '@ant-design/icons';
+const { TabPane } = Tabs;
+const { Header, Content, Footer } = Layout;
 
 export default function App() {
-    return <AntTable />; 
+  const { Header, Footer, Sider, Content } = Layout;
+
+  const employee = {
+    FirstName: 'Michael',
+    LastName: 'Keefe',
+    OfficePhoneNumber: '4075551234',
+    OfficePhoneNumberIsForeign: true,
+    MobilePhoneNumber: '3215551234',
+    MobilePhoneNumberIsForeign: false,
+    PersonalCellNumber: '',
+    PersonalCellNumberIsForeign: false,
+    Location: null
+  };
+
+  const validationProfiles = {
+    public: ['OfficePhoneNumber', 'FirstName', 'LastName'],
+    official: ['MobilePhoneNumber'],
+    personal: ['PersonalCellNumber']
+  };
+  let defaultValues = { ...employee };
+
+  const methods = useForm({ defaultValues });
+  const control = methods.control;
+  const errors = methods.formState.errors;
+
+  const watchPublic = methods.watch(validationProfiles.public);
+  const watchOfficial = methods.watch(validationProfiles.official);
+  const watchPersonal = methods.watch(validationProfiles.personal);
+
+  const onGenderChange = value => {
+    switch (value) {
+      case 'male':
+        form.setFieldsValue({ note: 'Hi, man!' });
+        return;
+      case 'female':
+        form.setFieldsValue({ note: 'Hi, lady!' });
+        return;
+      case 'other':
+        form.setFieldsValue({ note: 'Hi there!' });
+    }
+  };
+
+  const onErrors = e => {
+    console.log('onErrors');
+    for (const [key, value] of Object.entries(validationProfiles)) {
+      console.log(value);
+    }
+  };
+
+  const onSubmit = e => {
+    console.log('onSubmit');
+    for (const [key, value] of Object.entries(validationProfiles)) {
+      console.log(value);
+    }
+  };
+
+  const onFinish = values => {
+    console.log('onFinish');
+    console.log(values);
+  };
+
+  return (
+    <>
+      <Layout style={{ margin: '0px', padding: '0px' }}>
+        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+          <div className="logo" />
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+            <Menu.Item key="1">nav 1</Menu.Item>
+            <Menu.Item key="2">nav 2</Menu.Item>
+            <Menu.Item key="3">nav 3</Menu.Item>
+          </Menu>
+        </Header>
+        <Content
+          className="site-layout"
+          style={{ padding: '0 50px', marginTop: 64 }}
+        >
+          <Breadcrumb style={{ margin: '16px 0' }}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>List</Breadcrumb.Item>
+            <Breadcrumb.Item>App</Breadcrumb.Item>
+          </Breadcrumb>
+          <div
+            className="site-layout-background"
+            style={{ padding: 24, minHeight: 380 }}
+          >
+            <div className="card-container">
+              <FormProvider {...methods}>
+                <Tabs type="card" size="small">
+                  <TabPane
+                    tab={
+                      <span>
+                        Tab 1{' '}
+                        {watchPublic.some(a => !a) && (
+                          <FrownTwoTone
+                            twoToneColor="red"
+                            title="tab contains errors"
+                          />
+                        )}
+                      </span>
+                    }
+                    key="1"
+                  >
+                    <Form
+                      onFinish={methods.handleSubmit(onSubmit, onErrors)}
+                      layout="vertical"
+                    >
+                      <Row gutter={16}>
+                        <Col className="gutter-row" xs={24} lg={12}>
+                          <AntInput
+                            name="FirstName"
+                            label="First Name"
+                            required
+                          />
+                        </Col>
+                        <Col className="gutter-row" xs={24} lg={12}>
+                          <AntInput
+                            name="LastName"
+                            label="Last Name"
+                            required
+                          />
+                        </Col>
+
+                        <AntPhone
+                          name="OfficePhoneNumber"
+                          label="Office Phone"
+                          required
+                        />
+                        {methods.getValues('OfficePhoneNumberIsForeign').toString()}
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Descriptions>
+                            <Descriptions.Item label="Location">
+                              Location
+                            </Descriptions.Item>
+                          </Descriptions>
+                        </Col>
+                      </Row>
+                      <Form.Item>
+                        <Button type="primary" htmlType="submit">
+                          Submit
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </TabPane>
+                  <TabPane tab="Tab Title 2" key="2">
+                    <AntTable />
+                  </TabPane>
+                  <TabPane tab="Tab Title 3" key="3">
+                    <PublicTab />
+                    <p>Content of Tab Pane 1</p>
+                    <p>Content of Tab Pane 1</p>
+                  </TabPane>
+                </Tabs>
+              </FormProvider>
+            </div>
+          </div>
+          <ReactJson src={methods.getValues()} />
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>
+          Ant Design ©2018 Created by Ant UED
+        </Footer>
+      </Layout>
+    </>
+  );
 }
