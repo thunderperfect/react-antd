@@ -2,12 +2,14 @@ h1,
 p {
   font-family: Lato;
 }
+
+/* Card Container for Tabs*/
 .card-container p {
   margin: 0;
 }
 .card-container > .ant-tabs-card .ant-tabs-content {
-
   margin-top: -16px;
+  margin-bottom: 16px;
 }
 .card-container > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
   padding: 16px;
@@ -53,7 +55,20 @@ p {
   background: #141414;
   border-color: #141414;
 }
+/* End Card Container for Tabs*/
 
+/* Striped rows for Tables (grids) */
+.table-striped-rows tr:nth-child(2n) td {
+  background-color: #fbfbfb;
+}
+.table-striped-rows thead {
+  background-color: #f1f1f1;
+}
+tr.ant-table-row-selected td.ant-table-cell {
+  /* color:white; */
+  background-color: #91d5ff !important;
+}
+/* END Striped rows for Tables (grids) */
 
 .classA {
   display: flex;

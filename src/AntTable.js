@@ -160,7 +160,7 @@ export default function AntTable(props) {
       dataIndex: 'address',
       key: 'address',
       ...getColumnSearchProps('address'),
-      sorter: (a, b) => a.address.length - b.address.length,
+      sorter: (a, b) => a.address.localeCompare(b.address),
       sortDirections: ['descend', 'ascend']
     }
   ];

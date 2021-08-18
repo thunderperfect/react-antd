@@ -2,10 +2,9 @@ import React from 'react';
 import { Row, Col, Form, Descriptions } from 'antd';
 import AntInput from '../AntInput';
 import AntPhone from '../AntPhone';
-import LocationSearch from '../LocationSearch';
 import { useFormContext } from 'react-hook-form';
-export default function PublicTab(props) {
-
+export default function OfficialTab(props) {
+  
   const methods = useFormContext();
 
   return (
@@ -23,7 +22,6 @@ export default function PublicTab(props) {
         </Row>
         <Row>
           <Col>
-          <LocationSearch />
             <Descriptions>
               <Descriptions.Item label="Location">Location</Descriptions.Item>
             </Descriptions>

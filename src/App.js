@@ -15,16 +15,11 @@ import {
   Descriptions
 } from 'antd';
 import PublicTab from './Tabs/Public';
-import AntInput from './AntInput';
-import AntPhone from './AntPhone';
+import OfficialTab from './Tabs/Official';
+
 import { useForm, FormProvider, Controller } from 'react-hook-form';
-import {
-  AppleOutlined,
-  AndroidOutlined,
-  FrownTwoTone
-} from '@ant-design/icons';
+import { FrownTwoTone } from '@ant-design/icons';
 const { TabPane } = Tabs;
-const { Header, Content, Footer } = Layout;
 
 export default function App() {
   const { Header, Footer, Sider, Content } = Layout;
@@ -115,24 +110,29 @@ export default function App() {
                       <PublicTab />
                     </TabPane>
                     <TabPane tab="Tab Title 2" key="2">
+                      <OfficialTab />
                       <AntTable />
                     </TabPane>
                     <TabPane tab="Tab Title 3" key="3">
-                      <PublicTab />
-                      <p>Content of Tab Pane 1</p>
-                      <p>Content of Tab Pane 1</p>
+                      <OfficialTab />
                     </TabPane>
                   </Tabs>
-                  <Form.Item>
+                </div>
+                <Row gutter={[16, 8]}>
+                  <Col
+                    span={24}
+                    className="gutter-row"
+                    style={{ textAlign: 'right' }}
+                  >
                     <Button type="primary" htmlType="submit">
                       Submit
                     </Button>
-                  </Form.Item>
-                </div>
+                  </Col>
+                </Row>
               </form>
             </FormProvider>
           </div>
-          <ReactJson src={methods.getValues()} />
+          {/* <ReactJson src={methods.getValues()} /> */}
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           Ant Design ©2018 Created by Ant UED

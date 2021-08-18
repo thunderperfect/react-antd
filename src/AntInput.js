@@ -30,7 +30,7 @@ export default function AntInput(props) {
         placeholder={props.label}
         control={control}
         name={props.name}
-        render={({ field }) => <Input {...field} />}
+        render={({ field }) => <Input {...field} siz />}
       />
     </Form.Item>
   );
