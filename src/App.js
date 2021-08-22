@@ -1,7 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import AntTable from './AntTable';
-import ReactJson from 'react-json-view';
 
 import {
   Layout,
@@ -11,8 +10,7 @@ import {
   Form,
   Button,
   Col,
-  Row,
-  Descriptions
+  Row
 } from 'antd';
 import PublicTab from './Tabs/Public';
 import OfficialTab from './Tabs/Official';
@@ -20,6 +18,7 @@ import { FrownTwoTone } from '@ant-design/icons';
 const { TabPane } = Tabs;
 
 export default function App() {
+
   const { Header, Footer, Sider, Content } = Layout;
 
   const employee = {
@@ -34,14 +33,12 @@ export default function App() {
     Location: null
   };
 
-  const validationProfiles = {
-    public: ['OfficePhoneNumber', 'FirstName', 'LastName'],
-    official: ['MobilePhoneNumber'],
-    personal: ['PersonalCellNumber']
-  };
+  // const validationProfiles = {
+  //   public: ['OfficePhoneNumber', 'FirstName', 'LastName'],
+  //   official: ['MobilePhoneNumber'],
+  //   personal: ['PersonalCellNumber']
+  // };
 
-  
-  let defaultValues = { ...employee };
 
   const onFinish = values => {
     console.log('Success:', values);
@@ -75,7 +72,7 @@ export default function App() {
             className="site-layout-background"
             style={{ padding: 24, minHeight: 380 }}
           >
-            {' '}
+           
             <Form
               layout="vertical"
               labelCol={{ span: 8 }}
@@ -84,7 +81,7 @@ export default function App() {
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
             >
-              {{}}
+           
               <div className="card-container">
                 <Tabs type="card" size="small">
                   <TabPane tab={<span>Tab 1 </span>} key="1">
@@ -111,7 +108,6 @@ export default function App() {
               </Row>
             </Form>
           </div>
-          {/* <ReactJson src={methods.getValues()} /> */}
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           Ant Design ©2018 Created by Ant UED

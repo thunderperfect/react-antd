@@ -1,24 +1,19 @@
 import React from 'react';
 import { Form, Switch, Col, Input } from 'antd';
-
 import InputMask from 'react-input-mask';
+
 export default function AntPhone(props) {
   console.log('AntPhone props: ', props);
-
-  const [form] = Form.useForm();
 
   const { name } = props;
   const isForeignName = `${name}IsForeign`;
 
   const [isForeign, setIsForeign] = React.useState(false);
 
-  // console.log('isForeignName=', isForeignName)
-  // console.log('form.getFieldsValue(isForeignName) =' , form.getFieldValue(isForeignName))
   return (
     <>
       <Col>
         <Form.Item
-          form={form}
           name={props.name}
           label={props.label}
           tooltip={props.required && `${props.label} is required`}
