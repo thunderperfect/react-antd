@@ -8,11 +8,16 @@ export default function AntInput(props) {
     <Form.Item
       name={props.name}
       label={props.label}
-      help={errors[props.name]?.message}
       tooltip={props.required && `${props.label} is required`}
-      required={props.required}
+      rules={[
+        {
+          required: props.required,
+          message: props.required && `${props.label} is required`
+        },
+        { ...props.rules }
+      ]}
     >
-      <Input {...field} size="small" />
+      <Input size="small" />
     </Form.Item>
   );
 }

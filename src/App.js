@@ -40,6 +40,7 @@ export default function App() {
     personal: ['PersonalCellNumber']
   };
 
+  
   let defaultValues = { ...employee };
 
   const onFinish = values => {
@@ -76,37 +77,24 @@ export default function App() {
           >
             {' '}
             <Form
-              name="basic"
+              layout="vertical"
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 16 }}
-              initialValues={{ remember: true }}
+              initialValues={{ ...employee, remember: true }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
             >
+              {{}}
               <div className="card-container">
                 <Tabs type="card" size="small">
-                  <TabPane
-                    tab={
-                      <span>
-                        Tab 1{' '}
-                        {watchPublic.some(a => !a) && (
-                          <FrownTwoTone
-                            twoToneColor="red"
-                            title="tab contains errors"
-                          />
-                        )}
-                      </span>
-                    }
-                    key="1"
-                  >
+                  <TabPane tab={<span>Tab 1 </span>} key="1">
                     <PublicTab />
                   </TabPane>
                   <TabPane tab="Tab Title 2" key="2">
-                    <OfficialTab />
                     <AntTable />
                   </TabPane>
                   <TabPane tab="Tab Title 3" key="3">
-                    <OfficialTab />
+                    <span>test</span>
                   </TabPane>
                 </Tabs>
               </div>

@@ -3,7 +3,6 @@ import { Modal, Button, Table, Pagination, Space } from 'antd';
 import addresses from './addresses';
 import AntInput from './AntInput';
 import usaStates from './states';
-import { useForm } from 'react-hook-form';
 
 import {
   Layout,
