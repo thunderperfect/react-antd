@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col, Form, Descriptions } from 'antd';
 import AntInput from '../AntInput';
+import WrappedInput from '../WrappedInput';
 import AntPhone from '../AntPhone';
 import LocationSearch from '../LocationSearch';
 import { useFormContext } from 'react-hook-form';
@@ -18,7 +19,9 @@ export default function PublicTab(props) {
           <Col className="gutter-row" xs={24} lg={12}>
             <AntInput name="LastName" label="Last Name" required />
           </Col>
-
+          <Col  xs={24} lg={12}>
+            <AntInput name="LastName" label="Last Name" required />
+          </Col>
           <AntPhone name="OfficePhoneNumber" label="Office Phone" required />
         </Row>
         <Row>
