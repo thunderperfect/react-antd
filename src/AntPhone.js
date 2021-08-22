@@ -1,14 +1,14 @@
 import React from 'react';
-import { Form, Switch, Col, Input } from 'antd';
-import InputMask from 'react-input-mask';
+import { Form, Switch, Col, Input, Checkbox } from 'antd';
 
+import InputMask from 'react-input-mask';
 export default function AntPhone(props) {
   console.log('AntPhone props: ', props);
 
   const { name } = props;
   const isForeignName = `${name}IsForeign`;
-
-  const [isForeign, setIsForeign] = React.useState(false);
+  console.log('getFields', props.form.getFieldValue(isForeignName));
+  const [isForeign, setIsForeign] = React.useState( props.form.getFieldValue(isForeignName));
 
   return (
     <>
@@ -22,17 +22,17 @@ export default function AntPhone(props) {
           <InputMask
             mask={isForeign ? '+9999999999' : '(999) 999-9999'}
             title={props.name}
-            // onChange={e => {
-            //   e.target.value = e.target.value.replace(/\D/g, '');
-            //   return onChange(e);
-            // }}
           >
             {inputProps => <Input {...inputProps} type="tel" size="small" />}
           </InputMask>
         </Form.Item>
       </Col>
       <Col>
-        <Form.Item label={`${props.label} Is Foreign`} name={isForeignName}>
+        <Form.Item
+          label={`${props.label} Is Foreign`}
+          name={isForeignName}
+          valuePropName="checked"
+        >
           <Switch onChange={e => setIsForeign(e)} />
         </Form.Item>
       </Col>

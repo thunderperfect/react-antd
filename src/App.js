@@ -3,6 +3,7 @@ import 'antd/dist/antd.css';
 import AntTable from './AntTable';
 
 import {
+  Input,
   Layout,
   Menu,
   Breadcrumb,
@@ -18,7 +19,6 @@ import { FrownTwoTone } from '@ant-design/icons';
 const { TabPane } = Tabs;
 
 export default function App() {
-
   const { Header, Footer, Sider, Content } = Layout;
 
   const employee = {
@@ -33,21 +33,41 @@ export default function App() {
     Location: null
   };
 
+  const [form] = Form.useForm();
+
+  console.log(form);
+
+  const [reset, setReset] = React.useState(false);
+
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      form.setFieldsValue(employee);
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [reset]);
+
   // const validationProfiles = {
   //   public: ['OfficePhoneNumber', 'FirstName', 'LastName'],
   //   official: ['MobilePhoneNumber'],
   //   personal: ['PersonalCellNumber']
   // };
 
-
   const onFinish = values => {
+    console.log('employee=', employee);
+    setReset(!reset);
     console.log('Success:', values);
   };
 
   const onFinishFailed = errorInfo => {
+    console.log(employee);
+    console.log('employee=', employee);
+    setReset(!reset);
     console.log('Failed:', errorInfo);
   };
-
+  if (isLoading) return <>Loading ...</>;
   return (
     <>
       <Layout style={{ margin: '0px', padding: '0px' }}>
@@ -72,20 +92,19 @@ export default function App() {
             className="site-layout-background"
             style={{ padding: 24, minHeight: 380 }}
           >
-           
             <Form
               layout="vertical"
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 16 }}
-              initialValues={{ ...employee, remember: true }}
+              initialValues={{ remember: true }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
+              form={form}
             >
-           
               <div className="card-container">
                 <Tabs type="card" size="small">
                   <TabPane tab={<span>Tab 1 </span>} key="1">
-                    <PublicTab />
+                    <PublicTab form={form} />
                   </TabPane>
                   <TabPane tab="Tab Title 2" key="2">
                     <AntTable />

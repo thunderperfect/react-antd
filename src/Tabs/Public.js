@@ -23,7 +23,7 @@ export default function PublicTab(props) {
         <Col xs={24} lg={12}>
           <AntInput name="LastName" label="Last Name" required />
         </Col>
-        <AntPhone name="OfficePhoneNumber" label="Office Phone" required />
+        <AntPhone name="OfficePhoneNumber" label="Office Phone" required form={props.form} />
       </Row>
       <Row>
         <Col>
