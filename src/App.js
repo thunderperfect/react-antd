@@ -16,8 +16,6 @@ import {
 } from 'antd';
 import PublicTab from './Tabs/Public';
 import OfficialTab from './Tabs/Official';
-
-import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { FrownTwoTone } from '@ant-design/icons';
 const { TabPane } = Tabs;
 
@@ -44,24 +42,12 @@ export default function App() {
 
   let defaultValues = { ...employee };
 
-  const methods = useForm({ defaultValues });
-
-  const watchPublic = methods.watch(validationProfiles.public);
-  const watchOfficial = methods.watch(validationProfiles.official);
-  const watchPersonal = methods.watch(validationProfiles.personal);
-
-  const onErrors = e => {
-    console.log('onErrors');
-    for (const [key, value] of Object.entries(validationProfiles)) {
-      console.log(value);
-    }
+  const onFinish = values => {
+    console.log('Success:', values);
   };
 
-  const onSubmit = e => {
-    console.log('onSubmit');
-    for (const [key, value] of Object.entries(validationProfiles)) {
-      console.log(value);
-    }
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
   };
 
   return (
@@ -89,48 +75,53 @@ export default function App() {
             style={{ padding: 24, minHeight: 380 }}
           >
             {' '}
-            <FormProvider {...methods}>
-              <form onSubmit={methods.handleSubmit(onSubmit, onErrors)}>
-                <div className="card-container">
-                  <Tabs type="card" size="small">
-                    <TabPane
-                      tab={
-                        <span>
-                          Tab 1{' '}
-                          {watchPublic.some(a => !a) && (
-                            <FrownTwoTone
-                              twoToneColor="red"
-                              title="tab contains errors"
-                            />
-                          )}
-                        </span>
-                      }
-                      key="1"
-                    >
-                      <PublicTab />
-                    </TabPane>
-                    <TabPane tab="Tab Title 2" key="2">
-                      <OfficialTab />
-                      <AntTable />
-                    </TabPane>
-                    <TabPane tab="Tab Title 3" key="3">
-                      <OfficialTab />
-                    </TabPane>
-                  </Tabs>
-                </div>
-                <Row gutter={[16, 8]}>
-                  <Col
-                    span={24}
-                    className="gutter-row"
-                    style={{ textAlign: 'right' }}
+            <Form
+              name="basic"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+            >
+              <div className="card-container">
+                <Tabs type="card" size="small">
+                  <TabPane
+                    tab={
+                      <span>
+                        Tab 1{' '}
+                        {watchPublic.some(a => !a) && (
+                          <FrownTwoTone
+                            twoToneColor="red"
+                            title="tab contains errors"
+                          />
+                        )}
+                      </span>
+                    }
+                    key="1"
                   >
-                    <Button type="primary" htmlType="submit">
-                      Submit
-                    </Button>
-                  </Col>
-                </Row>
-              </form>
-            </FormProvider>
+                    <PublicTab />
+                  </TabPane>
+                  <TabPane tab="Tab Title 2" key="2">
+                    <OfficialTab />
+                    <AntTable />
+                  </TabPane>
+                  <TabPane tab="Tab Title 3" key="3">
+                    <OfficialTab />
+                  </TabPane>
+                </Tabs>
+              </div>
+              <Row gutter={[16, 8]}>
+                <Col
+                  span={24}
+                  className="gutter-row"
+                  style={{ textAlign: 'right' }}
+                >
+                  <Button type="primary" htmlType="submit">
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
           </div>
           {/* <ReactJson src={methods.getValues()} /> */}
         </Content>
