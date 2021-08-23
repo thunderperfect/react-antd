@@ -47,7 +47,7 @@ export default function App() {
       setIsLoading(false);
     }, 1000);
     return () => clearTimeout(timer);
-  }, [reset]);
+  }, []);
 
   // const validationProfiles = {
   //   public: ['OfficePhoneNumber', 'FirstName', 'LastName'],
@@ -62,10 +62,11 @@ export default function App() {
   };
 
   const onFinishFailed = errorInfo => {
-    console.log(employee);
-    console.log('employee=', employee);
-    setReset(!reset);
-    console.log('Failed:', errorInfo);
+    const { errorFields } = errorInfo;
+    const errors = errorFields.map(ef => ef.name.map(n => n));
+
+    console.log('errorFields', errorFields);
+    console.log(errors)
   };
   if (isLoading) return <>Loading ...</>;
   return (

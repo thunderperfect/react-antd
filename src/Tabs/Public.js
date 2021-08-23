@@ -11,6 +11,7 @@ export default function PublicTab(props) {
           <AntInput
             name="FirstName"
             label="First Name"
+            required
             rules={{
               pattern: /^[a-zA-Z]{3,30}$/i,
               message: 'First Name Pattern Error'
