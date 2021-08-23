@@ -19,6 +19,8 @@ import { FrownTwoTone } from '@ant-design/icons';
 const { TabPane } = Tabs;
 
 export default function App() {
+  console.log('app Rerender');
+
   const { Header, Footer, Sider, Content } = Layout;
 
   const employee = {
@@ -34,11 +36,7 @@ export default function App() {
   };
 
   const [form] = Form.useForm();
-
-  console.log(form);
-
   const [reset, setReset] = React.useState(false);
-
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -49,25 +47,39 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // const validationProfiles = {
-  //   public: ['OfficePhoneNumber', 'FirstName', 'LastName'],
-  //   official: ['MobilePhoneNumber'],
-  //   personal: ['PersonalCellNumber']
-  // };
+  const validationProfiles = {
+    public: ['OfficePhoneNumber', 'FirstName', 'LastName'],
+    official: ['MobilePhoneNumber'],
+    personal: ['PersonalCellNumber']
+  };
+
+  const [hasPublicErrors, setHasPublicErrors] = React.useState(false);
 
   const onFinish = values => {
-    console.log('employee=', employee);
+    setHasPublicErrors(false);
     setReset(!reset);
-    console.log('Success:', values);
+    console.log('onFinish Success:', values);
+  };
+
+  const handleTabError = errorInfo => {
+    if (errorInfo) {
+      const { errorFields } = errorInfo;
+
+      let hasPubErr = errorFields.some(ef =>
+        ef.name.some(n => validationProfiles.public.includes(n))
+      );
+      setHasPublicErrors(hasPubErr);
+    }
   };
 
   const onFinishFailed = errorInfo => {
-    const { errorFields } = errorInfo;
-    const errors = errorFields.map(ef => ef.name.map(n => n));
-
-    console.log('errorFields', errorFields);
-    console.log(errors)
+    handleTabError(errorInfo);
   };
+
+  const onValuesChange = (changedValues, allValues) => {
+    form.validateFields().catch(handleTabError);
+  };
+
   if (isLoading) return <>Loading ...</>;
   return (
     <>
@@ -101,10 +113,24 @@ export default function App() {
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
               form={form}
+              onValuesChange={onValuesChange}
             >
               <div className="card-container">
                 <Tabs type="card" size="small">
-                  <TabPane tab={<span>Tab 1 </span>} key="1">
+                  <TabPane
+                    tab={
+                      <span>
+                        Tab 1{' '}
+                        {hasPublicErrors && (
+                          <FrownTwoTone
+                            twoToneColor="red"
+                            title="tab contains errors"
+                          />
+                        )}
+                      </span>
+                    }
+                    key="1"
+                  >
                     <PublicTab form={form} />
                   </TabPane>
                   <TabPane tab="Tab Title 2" key="2">

@@ -3,12 +3,14 @@ import { Form, Switch, Col, Input, Checkbox } from 'antd';
 
 import InputMask from 'react-input-mask';
 export default function AntPhone(props) {
-  console.log('AntPhone props: ', props);
 
+  console.log(`AntPhone ${props.name} Rerender`);
   const { name } = props;
   const isForeignName = `${name}IsForeign`;
-  console.log('getFields', props.form.getFieldValue(isForeignName));
-  const [isForeign, setIsForeign] = React.useState( props.form.getFieldValue(isForeignName));
+
+  const [isForeign, setIsForeign] = React.useState(
+    props.form.getFieldValue(isForeignName)
+  );
 
   return (
     <>

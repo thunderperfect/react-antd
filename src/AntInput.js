@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, Form } from 'antd';
 
 export default function AntInput(props) {
-  console.log('props: ', props);
+  console.log(`AntInput ${props.name} Rerender`);
 
   return (
     <Form.Item
