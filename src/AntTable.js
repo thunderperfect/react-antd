@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Input, Button, Space, Pagination } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, FilterFilled } from '@ant-design/icons';
 
 const data = [
   {
@@ -30,12 +30,12 @@ const data = [
   }
 ];
 
-export default function AntTable(props) {
+export default function FilterableTable(props) {
   const searchInput = React.useRef(null);
-
   const [searchText, setSearchText] = React.useState('');
   const [searchedColumn, setSearchedColumn] = React.useState('');
-  const getColumnSearchProps = dataIndex => ({
+
+  const getColumnSearchProps = (dataIndex, customRender) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -85,7 +85,11 @@ export default function AntTable(props) {
       </div>
     ),
     filterIcon: filtered => (
-      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+      <FilterFilled
+        style={{
+          color: filtered ? '#c6ff1a' : undefined
+        }}
+      />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
@@ -102,18 +106,31 @@ export default function AntTable(props) {
         );
         // null check above: as its initial value was null
       }
-    },
-    render: text =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ''}
-        />
-      ) : (
-        text
-      )
+    }
+    //render: (text, row, index) => {
+
+    //    let result = props.columns.find(c => c.dataIndex == dataIndex).render && props.columns.find(c => c.dataIndex == dataIndex).render(text, row, index);
+    //    console.log(result);
+
+    //    return searchedColumn === dataIndex ? (
+    //        <Highlighter
+    //            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+    //            searchWords={[searchText]}
+    //            autoEscape
+    //            textToHighlight={text ? text.toString() : ''}
+    //        />
+    //    ) : (
+    //        text
+    //    )
+    //}
+  });
+
+  // apply filter props if filterable == true
+  const mappedColumns = props.columns.map(c => {
+    return {
+      ...c,
+      ...(c.filterable && getColumnSearchProps(c.dataIndex, c.render))
+    };
   });
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -127,58 +144,21 @@ export default function AntTable(props) {
     setSearchText('');
   };
 
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      render: (text, row, index) => {
-        if (index < 4) {
-          return (
-            <a>
-              {text}
-              <br /> <span>bottm</span>
-            </a>
-          );
-        }
-        return {
-          children: <a>{text}</a>,
-          props: {
-            colSpan: 5
-          }
-        };
-      }
-    },
-    {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-      width: '20%',
-      ...getColumnSearchProps('age')
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-      ...getColumnSearchProps('address'),
-      sorter: (a, b) => a.address.localeCompare(b.address),
-      sortDirections: ['descend', 'ascend']
-    }
-  ];
-
   return (
-    <>
-      <Table
-        className="table-striped-rows"
-        columns={columns}
-        dataSource={data}
-        size="small"
-        pagination={{
-          size: 'small',
-          showTotal: total => `Total ${total} items`,
-          position: ['topRight', 'bottomRight']
-        }}
-      />
-      <Pagination size="small" total={50} />
-    </>
+    <Table
+      className="table-striped-rows"
+      rowKey={row => row.Id}
+      bordered
+      {...props}
+      columns={mappedColumns}
+      dataSource={props.data}
+      size="small"
+      pagination={{
+        style: { margin: '4px 0px' },
+        size: 'small',
+        showTotal: total => `Total ${total} items`,
+        position: ['topRight', 'bottomRight']
+      }}
+    />
   );
 }
