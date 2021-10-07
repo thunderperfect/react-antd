@@ -1,7 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import AntTable from './AntTable';
-import logo from './Assets/Images/logo_2.png';
 import {
   Input,
   Layout,
@@ -15,6 +14,7 @@ import {
 } from 'antd';
 import PublicTab from './Tabs/Public';
 import OfficialTab from './Tabs/Official';
+import TreeWrap from './TreeWrap'
 import { FrownTwoTone } from '@ant-design/icons';
 const { TabPane } = Tabs;
 
@@ -85,7 +85,6 @@ export default function App() {
     <>
       <Layout style={{ margin: '0px', padding: '0px' }}>
         <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-          <img src={logo} className="logo" />
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
             <Menu.Item key="1">nav 1</Menu.Item>
             <Menu.Item key="2">nav 2</Menu.Item>
@@ -134,7 +133,7 @@ export default function App() {
                     <PublicTab form={form} />
                   </TabPane>
                   <TabPane tab="Tab Title 2" key="2">
-                    <AntTable />
+                    <TreeWrap />
                   </TabPane>
                   <TabPane tab="Tab Title 3" key="3">
                     <span>test</span>

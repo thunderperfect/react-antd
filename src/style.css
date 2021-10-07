@@ -78,3 +78,8 @@ tr.ant-table-row-selected td.ant-table-cell {
 .classB {
   margin-left: 10px;
 }
+
+.ant-tree-node-content-wrapper.ant-tree-node-content-wrapper-normal.ant-tree-node-selected {
+  background-color: pink;
+  color:red;
+}
