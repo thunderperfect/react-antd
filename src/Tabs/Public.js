@@ -14,17 +14,20 @@ export default function PublicTab(props) {
             required
             rules={{
               pattern: /^[a-zA-Z]{3,30}$/i,
-              message: 'First Name Pattern Error'
+              message: 'First Name Pattern Error',
             }}
           />
         </Col>
         <Col className="gutter-row" xs={24} lg={12}>
-          <AntInput name="LastName" label="Last Name" required />
+          <AntInput name="LastName" label="Last Name" />
         </Col>
-        <Col xs={24} lg={12}>
-          <AntInput name="LastName" label="Last Name" required />
-        </Col>
-        <AntPhone name="OfficePhoneNumber" label="Office Phone" required form={props.form} />
+
+        <AntPhone
+          name="OfficePhoneNumber"
+          label="Office Phone"
+          required
+          form={props.form}
+        />
       </Row>
       <Row>
         <Col>

@@ -10,16 +10,16 @@ import {
   Form,
   Button,
   Col,
-  Row
+  Row,
 } from 'antd';
 import PublicTab from './Tabs/Public';
 import OfficialTab from './Tabs/Official';
-import TreeWrap from './TreeWrap'
+import TreeWrap from './TreeWrap';
 import { FrownTwoTone } from '@ant-design/icons';
 const { TabPane } = Tabs;
 
 export default function App() {
-  console.log('app Rerender');
+  //console.log('app Rerender');
 
   const { Header, Footer, Sider, Content } = Layout;
 
@@ -32,7 +32,7 @@ export default function App() {
     MobilePhoneNumberIsForeign: false,
     PersonalCellNumber: '',
     PersonalCellNumberIsForeign: false,
-    Location: null
+    Location: null,
   };
 
   const [form] = Form.useForm();
@@ -50,29 +50,35 @@ export default function App() {
   const validationProfiles = {
     public: ['OfficePhoneNumber', 'FirstName', 'LastName'],
     official: ['MobilePhoneNumber'],
-    personal: ['PersonalCellNumber']
+    personal: ['PersonalCellNumber'],
   };
 
   const [hasPublicErrors, setHasPublicErrors] = React.useState(false);
 
-  const onFinish = values => {
+  const onFinish = (values) => {
+    let allButFirstName = Object.entries(values).filter(
+      (k) => k[0] !== 'FirstName' && k[1] !== ''
+    ).length;
+
+    console.log(allButFirstName);
+
     setHasPublicErrors(false);
     setReset(!reset);
-    console.log('onFinish Success:', values);
+    //console.log('onFinish Success:', values);
   };
 
-  const handleTabError = errorInfo => {
+  const handleTabError = (errorInfo) => {
     if (errorInfo) {
       const { errorFields } = errorInfo;
 
-      let hasPubErr = errorFields.some(ef =>
-        ef.name.some(n => validationProfiles.public.includes(n))
+      let hasPubErr = errorFields.some((ef) =>
+        ef.name.some((n) => validationProfiles.public.includes(n))
       );
       setHasPublicErrors(hasPubErr);
     }
   };
 
-  const onFinishFailed = errorInfo => {
+  const onFinishFailed = (errorInfo) => {
     handleTabError(errorInfo);
   };
 
@@ -146,6 +152,22 @@ export default function App() {
                   className="gutter-row"
                   style={{ textAlign: 'right' }}
                 >
+                  <div style={{ backgroundColor: 'silver' }}>
+                    <Button
+                      type="link"
+                      style={{
+                        display: 'inline',
+                        padding: '0px',
+                        margin: '0px',
+                      }}
+                    >
+                      test
+                    </Button>
+                  </div>
+                  <div style={{ backgroundColor: 'lightblue' }}>
+                    <a href="#">Test2</a>
+                  </div>
+
                   <Button type="primary" htmlType="submit">
                     Submit
                   </Button>

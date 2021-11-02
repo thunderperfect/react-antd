@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, Form } from 'antd';
 
 export default function AntInput(props) {
-  console.log(`AntInput ${props.name} Rerender`);
+  //console.log(`AntInput ${props.name} Rerender`);
 
   return (
     <Form.Item
@@ -12,9 +12,9 @@ export default function AntInput(props) {
       rules={[
         {
           required: props.required,
-          message: props.required && `${props.label} is required`
+          message: props.required && `${props.label} is required`,
         },
-        { ...props.rules }
+        { ...props.rules },
       ]}
     >
       <Input size="small" />
