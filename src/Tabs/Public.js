@@ -1,8 +1,7 @@
 import React from 'react';
 import { Row, Col, Form, Descriptions } from 'antd';
 import AntInput from '../AntInput';
-import AntPhone from '../AntPhone';
-// import LocationSearch from '../LocationSearch';
+
 export default function PublicTab(props) {
   return (
     <>
@@ -22,21 +21,8 @@ export default function PublicTab(props) {
           <AntInput name="LastName" label="Last Name" />
         </Col>
 
-        <AntPhone
-          name="OfficePhoneNumber"
-          label="Office Phone"
-          required
-          form={props.form}
-        />
       </Row>
-      <Row>
-        <Col>
-          {/* <LocationSearch /> */}
-          <Descriptions>
-            <Descriptions.Item label="Location">Location</Descriptions.Item>
-          </Descriptions>
-        </Col>
-      </Row>
+
     </>
   );
 }
