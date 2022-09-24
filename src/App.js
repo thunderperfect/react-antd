@@ -20,7 +20,7 @@ export default function App() {
 
   const employee = {
     FirstName: 'Michael',
-    LastName: 'Keefe',
+    LastName: 'Smith',
     OfficePhoneNumber: '4075551234',
     OfficePhoneNumberIsForeign: true,
     MobilePhoneNumber: '3215551234',
